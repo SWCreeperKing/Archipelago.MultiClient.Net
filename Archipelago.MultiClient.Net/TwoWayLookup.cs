@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Archipelago.MultiClient.Net
 {
-	class TwoWayLookup<TA,TB> : IEnumerable<KeyValuePair<TB, TA>>
+	public class TwoWayLookup<TA,TB> : IEnumerable<KeyValuePair<TB, TA>>
 	{
 		readonly Dictionary<TA, TB> aToB = new Dictionary<TA, TB>();
 		readonly Dictionary<TB, TA> bToA = new Dictionary<TB, TA>();

@@ -53,9 +53,9 @@ namespace Archipelago.MultiClient.Net.DataPackage
 	}
 
 	/// <inheritdoc/>
-	class ItemInfoResolver : IItemInfoResolver
+	public class ItemInfoResolver : IItemInfoResolver
 	{
-		readonly IDataPackageCache cache;
+		public readonly IDataPackageCache cache;
 		readonly IConnectionInfoProvider connectionInfoProvider;
 
 		public ItemInfoResolver(IDataPackageCache cache, IConnectionInfoProvider connectionInfoProvider)

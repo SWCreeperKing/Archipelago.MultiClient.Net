@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace Archipelago.MultiClient.Net.DataPackage
 {
-    class DataPackageCache : IDataPackageCache
+    public class DataPackageCache : IDataPackageCache
     {
         readonly IArchipelagoSocketHelper socket;
 
         // ReSharper disable once ArrangeObjectCreationWhenTypeEvident
-        readonly Dictionary<string, IGameDataLookup> inMemoryCache = new Dictionary<string, IGameDataLookup>();
+        public readonly Dictionary<string, IGameDataLookup> inMemoryCache = new Dictionary<string, IGameDataLookup>();
 
 		internal IFileSystemDataPackageProvider FileSystemDataPackageProvider;
 

@@ -2,14 +2,14 @@
 
 namespace Archipelago.MultiClient.Net.DataPackage
 {
-	interface IGameDataLookup
+	public interface IGameDataLookup
 	{
 		TwoWayLookup<long, string> Locations { get; }
 		TwoWayLookup<long, string> Items { get; }
 		string Checksum { get; }
 	}
 
-	class GameDataLookup : IGameDataLookup
+	public class GameDataLookup : IGameDataLookup
 	{
 		public TwoWayLookup<long, string> Locations { get; }
 		public TwoWayLookup<long, string> Items { get; }

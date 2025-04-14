@@ -83,7 +83,7 @@ namespace Archipelago.MultiClient.Net.Helpers
     {
         readonly IArchipelagoSocketHelper socket;
         readonly ILocationCheckHelper locationsHelper;
-        readonly IItemInfoResolver itemInfoResolver;
+        public readonly IItemInfoResolver itemInfoResolver;
         readonly IConnectionInfoProvider connectionInfoProvider;
         readonly IPlayerHelper playerHelper;
 
