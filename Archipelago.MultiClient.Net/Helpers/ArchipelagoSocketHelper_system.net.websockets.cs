@@ -1,4 +1,4 @@
-﻿#if NET45 || NETSTANDARD2_0 || NET6_0
+﻿#if NET45 || NETSTANDARD2_0 || NET6_0 || NET48
 using Archipelago.MultiClient.Net.Extensions;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-#if NET45
+#if NET45 || NET48
 using System.Net;
 #endif
 
@@ -23,7 +23,7 @@ namespace Archipelago.MultiClient.Net.Helpers
         {
             Uri = hostUri;
 
-#if NET45
+#if NET45 || NET48
 			//this is done on constructor, rather than static constructor override any value set anywhere else in the process
 	        var Tls13 = (SecurityProtocolType)12288;
 	        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | Tls13;

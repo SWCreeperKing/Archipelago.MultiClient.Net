@@ -1,4 +1,4 @@
-﻿#if NET45 || NETSTANDARD2_0 || NET6_0
+﻿#if NET45 || NETSTANDARD2_0 || NET6_0 || NET48
 using Archipelago.MultiClient.Net.Converters;
 using Archipelago.MultiClient.Net.Exceptions;
 using Newtonsoft.Json;
