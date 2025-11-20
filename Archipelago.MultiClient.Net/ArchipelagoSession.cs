@@ -3,11 +3,7 @@ using Archipelago.MultiClient.Net.Exceptions;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
 
 #if !NET35
@@ -60,6 +56,11 @@ namespace Archipelago.MultiClient.Net
 		/// Provides simplified handlers to receive messages about events that happen in the multiworld
 		/// </summary>
 		IMessageLogHelper MessageLog { get; }
+
+		/// <summary>
+		/// Provides methods to interact with the hints system
+		/// </summary>
+		IHintsHelper Hints { get; }
 
 #if !NET35
 		/// <summary>
@@ -149,6 +150,9 @@ namespace Archipelago.MultiClient.Net
 		/// <inheritdoc/>
 		public IMessageLogHelper MessageLog { get; }
 
+		/// <inheritdoc/>
+		public IHintsHelper Hints { get; }
+
 #if NET35
 	    volatile bool awaitingRoomInfo;
 		volatile bool expectingLoginResult;
@@ -165,7 +169,8 @@ namespace Archipelago.MultiClient.Net
                                     IRoomStateHelper roomState,
                                     ConnectionInfoHelper connectionInfoHelper,
                                     IDataStorageHelper dataStorage,
-                                    IMessageLogHelper messageLog)
+                                    IMessageLogHelper messageLog,
+                                    IHintsHelper createHints)
         {
             Socket = socket;
             Items = items;
@@ -175,6 +180,7 @@ namespace Archipelago.MultiClient.Net
             connectionInfo = connectionInfoHelper;
             DataStorage = dataStorage;
             MessageLog = messageLog;
+            Hints = createHints;
             
             socket.PacketReceived += Socket_PacketReceived;
         }
@@ -185,9 +191,6 @@ namespace Archipelago.MultiClient.Net
             {
                 case ConnectedPacket _:
 	            case ConnectionRefusedPacket _:
-					if (packet is ConnectedPacket && RoomState.Version != null && RoomState.Version >= new Version(0, 3, 8))
-						LogUsedVersion();
-
 #if NET35
 					if (expectingLoginResult)
                     {
@@ -210,42 +213,7 @@ namespace Archipelago.MultiClient.Net
             }
         }
 
-        void LogUsedVersion()
-        {
-#if NET35
-			const string libVersion = "NET35";
-#elif NET40
-			const string libVersion = "NET40";
-#elif NET45
-			const string libVersion = "NET45";
-#elif NETSTANDARD2_0
-			const string libVersion = "NETSTANDARD2_0";
-#elif NET6_0
-			const string libVersion = "NET6_0";
-#else
-			const string libVersion = "OTHER";
-#endif
-            try
-            {
-				var assemblyVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-				
-		        Socket.SendPacketAsync(new SetPacket {
-			        Key = ".NetUsedVersions",
-			        DefaultValue = JObject.FromObject(new Dictionary<string, bool>()),
-			        Operations = new[] {
-						Operation.Update(new Dictionary<string, bool> {
-							{ $"{ConnectionInfo.Game}:{assemblyVersion}:{libVersion}", true }
-						})
-			        }
-		        });
-	        }
-	        catch
-	        {
-		        // ignored
-	        }
-        }
-
-#if !NET35
+ #if !NET35
 	    /// <inheritdoc/>
 		public Task<RoomInfoPacket> ConnectAsync()
         {
