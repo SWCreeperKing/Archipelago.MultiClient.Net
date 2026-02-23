@@ -49,8 +49,8 @@ namespace Archipelago.MultiClient.Net.Tests
                 Games = new []{ "One" }
             });
 
-            socket.Received().SendPacket(Arg.Is<GetDataPackagePacket>(p =>
-                p.Games.Length == 1 && p.Games[0] == "One"
+            socket.Received().SendMultiplePackets(Arg.Is<GetDataPackagePacket[]>(p =>
+                p.Length == 1 && p[0].Games.Length == 1 && p[0].Games[0] == "One"
             ));
         }
 
@@ -87,7 +87,7 @@ namespace Archipelago.MultiClient.Net.Tests
 
             socket.PacketReceived += Raise.Event<ArchipelagoSocketHelperDelagates.PacketReceivedHandler>(roomInfo);
 
-            socket.DidNotReceive().SendPacket(Arg.Any<GetDataPackagePacket>());
+            socket.DidNotReceive().SendMultiplePackets(Arg.Any<GetDataPackagePacket[]>());
         }
 
 		[Test]
@@ -127,8 +127,10 @@ namespace Archipelago.MultiClient.Net.Tests
 
             socket.PacketReceived += Raise.Event<ArchipelagoSocketHelperDelagates.PacketReceivedHandler>(roomInfo);
 
-            socket.Received().SendPacket(Arg.Is<GetDataPackagePacket>(p =>
-                p.Games.Length == 2 && p.Games[0] == "Two" && p.Games[1] == "Three"
+            socket.Received().SendMultiplePackets(Arg.Is<GetDataPackagePacket[]>(p =>
+                p.Length == 2 
+                && p[0].Games.Length == 1 && p[0].Games[0] == "Two" 
+                && p[1].Games.Length == 1 && p[1].Games[0] == "Three"
             ));
         }
 
@@ -257,8 +259,8 @@ namespace Archipelago.MultiClient.Net.Tests
 
 	        socket.PacketReceived += Raise.Event<ArchipelagoSocketHelperDelagates.PacketReceivedHandler>(roomInfo);
 
-	        socket.Received().SendPacket(Arg.Is<GetDataPackagePacket>(p =>
-			    p.Games.Length == 1 && p.Games[0] == "Two"
+	        socket.Received().SendMultiplePackets(Arg.Is<GetDataPackagePacket[]>(p =>
+			    p.Length == 1 && p[0].Games.Length == 1 && p[0].Games[0] == "Two"
 			));
 		}
 
