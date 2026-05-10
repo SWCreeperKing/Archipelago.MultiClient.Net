@@ -121,7 +121,7 @@ namespace Archipelago.MultiClient.Net.Helpers
 		public void UpdateConnectionOptions(string[] tags) => UpdateConnectionOptions(tags, ItemsHandlingFlags);
 
         ///<inheritdoc/>
-		public void UpdateConnectionOptions(ItemsHandlingFlags itemsHandlingFlags) => UpdateConnectionOptions(Tags, ItemsHandlingFlags);
+		public void UpdateConnectionOptions(ItemsHandlingFlags itemsHandlingFlags) => UpdateConnectionOptions(Tags, itemsHandlingFlags);
 
         ///<inheritdoc/>
 		public void UpdateConnectionOptions(string[] tags, ItemsHandlingFlags itemsHandlingFlags)

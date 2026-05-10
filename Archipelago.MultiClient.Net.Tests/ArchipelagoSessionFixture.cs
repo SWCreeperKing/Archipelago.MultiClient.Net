@@ -72,7 +72,7 @@ namespace Archipelago.MultiClient.Net.Tests
 
 			Received.InOrder(() =>
 			{
-				socket.Received().SendPacket(Arg.Any<GetDataPackagePacket>());
+				socket.Received().SendMultiplePackets(Arg.Any<GetDataPackagePacket[]>());
 				socket.Received().SendPacket(Arg.Any<ConnectPacket>());
 			});
 

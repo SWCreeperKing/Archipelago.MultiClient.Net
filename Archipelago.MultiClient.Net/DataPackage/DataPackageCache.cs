@@ -41,10 +41,9 @@ namespace Archipelago.MultiClient.Net.DataPackage
 					var invalidated = GetCacheInvalidatedGamesByChecksum(roomInfoPacket);
 					if (invalidated.Any())
                     {
-                        socket.SendPacket(new GetDataPackagePacket
-                        {
-                            Games = invalidated.ToArray()
-                        });
+                        socket.SendMultiplePackets(
+                            invalidated.Select(game => new GetDataPackagePacket { Games = new[] { game } }).ToArray()
+                        );
                     }
                     break;
                 case DataPackagePacket packagePacket:
